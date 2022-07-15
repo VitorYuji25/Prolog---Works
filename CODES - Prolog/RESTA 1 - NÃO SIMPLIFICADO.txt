@@ -1,0 +1,45 @@
+%%RESTA 1 - 2D - NÃO SIMPLIFICADO
+
+:- use_module(library(clpfd)).
+
+%A1,A2,A3,D1,D2,D3
+move(x,x,o,o,o,x).
+move(o,x,x,x,o,o).
+contax([],0) :- !.
+contax([x|T],N) :- contax(T,NR), N is NR+1,!.
+contax([H|T],N) :- H \= x, contax(T,N).
+
+%E uma regra fimJogo
+
+contaxM([L],X) :- contax(L,X),!.
+
+contaxM([H|T],X) :- contax(H,Xl),contaxM(T,Xr), X is Xl + Xr.
+fimJogo(M) :- contaxM(M,1).
+
+r11d1p(L,Sol) :- r11d1p([],L,Sol),!.
+
+r11d1p(Pre,[A,B,C|T],NovoJogo) :-
+					move(A,B,C,NA,NB,NC),
+					append(Pre,[NA,NB,NC|T],NovoJogo);
+%no normal tinha uma recursao aqui!
+					append(Pre,[A],NPre),r11d1p(NPre,[B,C|					T],NovoJogo).
+
+r12d1p(M,MSol) :- r12d1p([],M,MSol),!.
+
+r12d1p(Pre,[H|T],NovoJogo) :-
+r11d1p(H,NH),
+append(Pre,[NH],Inicio),
+append(Inicio,T,NovoJogo);
+append(Pre,[H],NPre),r12d1p(NPre,T,NovoJogo).
+
+
+%:- use_module(library(clpfd)).
+
+r12d(M,[]) :- fimJogo(M),!.
+
+r12d(M,[H|T]):- r12d1p(M,H),
+		r12d(H,T);
+		transpose(M,Ts),
+		r12d1p(Ts,TH),
+		transpose(TH,H),
+		r12d(H,T).

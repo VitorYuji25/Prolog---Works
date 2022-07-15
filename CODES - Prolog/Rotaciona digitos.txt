@@ -1,0 +1,31 @@
+ROTACIONA PARA DIREITA:
+
+rot(N,N) :- N<10,!.
+
+rot(N,NR) :- contaDigito(N,C),
+	     CM is C-1,
+	     Base is N//10,
+	     R is N mod 10,
+	     pot10(CM,M),
+	     NR is Base + R*M.
+
+ROTACIONA PARA ESQUERDA:
+
+rot(N,N) :- N<10,!.
+
+rot(N,NR) :- contaDigito(N,C),
+	     CM is C-1,
+	     Base is N//10,
+	     R is N mod 10,
+	     pot10(CM,M),
+	     NR is Base + R*M.
+	     rot(N,0,N) :- !.
+
+rot(N,D,NR) :- D<0,
+	       contaDigito(N,C),
+	       DD is D+C,
+	       rot(N,DD,NR),!.
+
+rot(N,D,NR) :- DD is D-1,
+	       rot(N,NR1),
+	       rot(NR1,DD,NR).

@@ -1,0 +1,56 @@
+%%Criptograma (SOMA DE DIGITOS (LETRAS))
+digito(0). 
+digito(1). 
+digito(2). 
+digito(3). 
+digito(4). 
+digito(5). 
+digito(6). 
+digito(7). 
+digito(8). 
+digito(9). 
+
+  
+
+  
+
+  
+
+ex1(M,O,T,H,E,R,F,A,T,H,E,R,P,A,R,E,N,T) :- 
+
+digito(M), 
+digito(O), 
+digito(F), 
+digito(P), 
+digito(A), 
+digito(R), 
+digito(E), 
+digito(N), 
+digito(T), 
+digito(H), 
+
+D1 is R+R, 
+ModD1 is D1 mod 10, 
+VaiD1 is D1 //10, 
+T is ModD1, 
+D2 is E+E+VaiD1, 
+ModD2 is D2 mod 10, 
+VaiD2 is D2 //10, 
+N is ModD2, 
+D3 is H+H+VaiD2, 
+ModD3 is D3 mod 10, 
+VaiD3 is D3 //10, 
+E is ModD3, 
+D4 is T+T+VaiD3, 
+ModD4 is D4 mod 10, 
+VaiD4 is D4 //10, 
+R is ModD4, 
+O is 0, 
+D5 is O+A+VaiD4, 
+ModD5 is D5 mod 10, 
+VaiD5 is D5 //10, 
+A is ModD5, 
+M <10,F<10, 
+D6 is M+F+VaiD5, 
+ModD6 is D6 mod 10, 
+P is ModD6, P =\= 0. 

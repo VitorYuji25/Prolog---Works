@@ -1,0 +1,112 @@
+%%PONTE DE ZOMBIES:
+
+estado(0).
+estado(1).
+
+ 
+
+
+faseVai(X,X).
+faseVai(0,1).
+
+ 
+
+ 
+faseVolta(X,X).
+faseVolta(1,0).
+
+ 
+
+
+limitePonte(I1,F1,I2,F2,I3,F3,I4,F4,Limite) :-
+    M1 is abs(I1-F1),
+    M2 is abs(I2-F2),
+    M3 is abs(I3-F3),
+    M4 is abs(I4-F4),
+    Limite is M1+M2+M3+M4.
+    
+    
+
+ 
+
+ 
+
+ 
+
+maior(A,B,A) :- A>=B,!.
+maior(_,B,B) :- !.
+
+ 
+
+ 
+
+ 
+
+maior(A,B,C,D,M) :-
+    maior(A,B,M1),
+    maior(C,D,M2),
+    maior(M1,M2,M).
+
+ 
+
+ 
+
+ 
+
+
+calcDif(P,NP,D):-
+    T1 is P-NP,
+    T2 is NP-P,
+    maior(T1,T2,D).
+
+ 
+
+ 
+
+ 
+
+calculaTempo(E,NE,P,NP,Z,NZ,I,NI,Tempo) :-
+    calcDif(E,NE,ME),
+    calcDif(P,NP,MP),
+    calcDif(Z,NZ,MZ),
+    calcDif(I,NI,MI),
+    TP is 2*MP,
+    TZ is 5*MZ,
+    TI is 10*MI,
+    maior(ME,TP,TZ,TI,Tempo).
+
+ 
+
+
+volta(1,1,1,1,Tempo,[]) :- Tempo<18,!.
+
+ 
+
+volta(E,Pq,Z,P,Tempo,[[NE,NPq,NZ,NP]|T]) :-
+    Tempo<18,
+    estado(E),faseVolta(E,NE),
+    estado(Pq),faseVolta(Pq,NPq),
+    estado(Z),faseVolta(Z,NZ),
+    estado(P),faseVolta(P,NP),
+    limitePonte(E,NE,Pq,NPq,Z,NZ,P,NP,1),
+    %write(NE),write(NPq),write(NZ),writeln(NP),
+    calculaTempo(E,NE,Pq,NPq,Z,NZ,P,NP,TempoGasto),
+    TempoProx is Tempo+TempoGasto,
+    vai(NE,NPq,NZ,NP,TempoProx,T).
+
+ 
+
+ 
+
+
+vai(E,Pq,Z,P,Tempo,[[NE,NPq,NZ,NP]|T]) :-
+    Tempo<18,
+    estado(E),faseVai(E,NE),
+    estado(Pq),faseVai(Pq,NPq),
+    estado(Z),faseVai(Z,NZ),
+    estado(P),faseVai(P,NP),
+    limitePonte(E,NE,Pq,NPq,Z,NZ,P,NP,2),
+    %write(NE),write(NPq),write(NZ),writeln(NP),
+    calculaTempo(E,NE,Pq,NPq,Z,NZ,P,NP,TempoGasto),
+    TempoProx is Tempo+TempoGasto,
+    volta(NE,NPq,NZ,NP,TempoProx,T).

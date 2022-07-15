@@ -1,0 +1,73 @@
+%%Trabalho Final Rainha
+
+casa(1).
+casa(2).
+casa(3).
+casa(4).
+casa(5).
+casa(6).
+casa(7).
+casa(8).
+ 
+pos(X,Y) :- casa(X),casa(Y).
+ 
+mesmaDiagonal([L1,C1],[L2,C2]) :- X is abs(L1-L2),
+                                  Y is abs(C1-C2), 
+                                  X is Y.
+ 
+ataca([L1,C1],[L2,C2]) :- L1 is L2;
+                          C1 is C2;
+                          mesmaDiagonal([L1,C1],[L2,C2]).
+
+
+segura(R1,R2) :- \+ataca(R1,R2). 
+ 
+rainhas( [L1,C1],[L2,C2],[L3,C3],[L4,C4],[L5,C5],
+          [L6,C6],[L7,C7],[L8,C8]) :- 
+        pos(L1,C1),pos(L2,C2),pos(L3,C3),pos(L4,C4),
+        pos(L5,C5),pos(L6,C6),pos(L7,C7),pos(L8,C8),
+        segura([L1,C1],[L2,C2]).
+
+%------------------------------------------------------------------
+
+casa(1).
+casa(2).
+casa(3).
+casa(4).
+casa(5).
+casa(6).
+casa(7).
+casa(8).
+ 
+pos(X,Y) :- casa(X),casa(Y).
+
+posSegura([],_) :- !.
+
+posSegura([ [L,C] ],[LN,CN]) :- pos(LN,CN),segura([L,C],[LN,CN]),!.
+
+posSegura([ [L,C]|T ], [LN,CN]) :- pos(LN,CN),segura([L,C],[LN,CN]),posSegura(T,[LN,CN]).
+
+mesmaDiagonal([L1,C1],[L2,C2]) :- X is abs(L1-L2),
+                                  Y is abs(C1-C2), 
+                                  X is Y.
+
+ataca([L1,C1],[L2,C2]) :- L1 is L2;
+                          C1 is C2;
+                          mesmaDiagonal([L1,C1],[L2,C2]).
+
+
+segura(R1,R2) :- \+ataca(R1,R2). 
+
+nrainhas(S,N) :- nrainhas([],S,N).
+
+nrainhas(Rainhas,Rainhas,N) :- length(Rainhas,N),!.
+
+nrainhas(Rainhas,S,N) :- length(Rainhas,Temp),L is Temp+1,pos(L,C), 
+			 posSegura(Rainhas,[L,C]),nrainhas([[L,C]|Rainhas],S,N).
+
+
+rainhas([L1,C1],[L2,C2],[L3,C3],[L4,C4],[L5,C5],[L6,C6],[L7,C7],[L8,C8]) :-
+	   
+          pos(L1,C1),pos(L2,C2),pos(L3,C3),pos(L4,C4),
+          pos(L5,C5),pos(L6,C6),pos(L7,C7),pos(L8,C8),
+          segura([L1,C1],[L2,C2]).

@@ -1,0 +1,32 @@
+BRUXELAS!!
+
+geraFaixa(Inicio,Fim,_) :- Fim<Inicio,!,fail.
+
+geraFaixa(Inicio,Inicio,Inicio) :- !.
+
+geraFaixa(Inicio,Fim,Valor) :-  Valor is Inicio;
+				Proximo is Inicio +1,
+				geraFaixa(Proximo,Fim,Valor).
+
+%%Para quebar o numero em 2 pedacos:
+
+%N -> Tamamho do numero
+%I1 -> O inicio do primeiro pedaço
+%F1 -> Fim do primeiro pedaço
+%I2 -> Inicio do segundo pedaço
+%F2 -> Fim do segundo pedaço
+
+limites2(N,I1,F1,I2,F2) :- I1 is 1,
+			   F2 is N,
+			   NM is N-1,
+			   geraFaixa(1,NM,F1),
+			   I2 is F1+1.
+
+%%Para quebar o numero em 3 pedacos:
+
+limites3(N,1,F1,I2,F2,I3,N) :-  NM2 is N-2,
+				geraFaixa(1,NM2,F1),
+				I2 is F1+1,
+				NM1 is N-1,
+				geraFaixa(I2,NM1,F2),
+				I3 is F2 +1.

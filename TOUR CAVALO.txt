@@ -1,0 +1,97 @@
+%%TOUR CAVALO
+
+pos(1).
+pos(2).
+pos(3).
+pos(4).
+pos(5).
+pos(6).
+pos(7).
+pos(8).
+pos(9).
+pos(10).
+pos(11).
+pos(12).
+pos(13).
+pos(14).
+pos(15).
+
+
+verIni_e_Fim([F|_],Fim1,Fim2):- member(F,Fim1);
+    						    member(F,Fim2).
+    									  
+
+
+cavaloMovimenta([L1,C1],[L2,C2]) :-
+    L2 is L1+1, C2 is C1+2;
+    L2 is L1+1, C2 is C1-2;
+    L2 is L1-1, C2 is C1+2;
+    L2 is L1-1, C2 is C1-2;
+    L2 is L1+2, C2 is C1+1;
+    L2 is L1+2, C2 is C1-1;
+    L2 is L1-2, C2 is C1+1;
+    L2 is L1-2, C2 is C1-1.
+
+cavalo([L1,C1],[L2,C2]) :- cavaloMovimenta([L1,C1],[L2,C2])
+    						,pos(L2),pos(C2).
+
+tour1(L,L):- length(L,29).
+
+tour1([P|T],Resp1) :- cavalo(P,Prox1R),
+    				not(member(Prox1R,[P|T])),Prox1 = [P|T],
+                    tour1([Prox1R|Prox1],Resp1).
+    				
+
+tour2(L,L) :- length(L,57),!.
+
+
+tour2([P2|T],Resp2) :- cavalo(P2,Prox2R),
+    				not(member(Prox2R,[P2|T])),Prox2 = [P2|T],
+    			 	tour2([Prox2R|Prox2],Resp2).
+
+
+tour3(L,L) :- length(L,85),!.
+
+tour3([P3|T],Resp3) :- cavalo(P3,Prox3R),
+    				not(member(Prox3R,[P3|T])),Prox3 = [P3|T],
+    			 	tour3([Prox3R|Prox3],Resp3).
+
+tour4(L,L) :- length(L,113),!.
+
+tour4([P4|T],Resp4) :- cavalo(P4,Prox4R),
+    				not(member(Prox4R,[P4|T])),Prox4 = [P4|T],
+    			 	tour4([Prox4R|Prox4],Resp4).
+
+tour5(L,L) :- length(L,141),!.
+
+tour5([P5|T],Resp5) :- cavalo(P5,Prox5R),
+    				not(member(Prox5R,[P5|T])),Prox5 = [P5|T],
+    			 	tour5([Prox5R|Prox5],Resp5).
+
+tour6(L,L) :- length(L,169),!.
+
+tour6([P6|T],Resp6) :- cavalo(P6,Prox6R),
+    				not(member(Prox6R,[P6|T])),Prox6 = [P6|T],
+    			 	tour6([Prox6R|Prox6],Resp6).
+
+
+tour7(L,L) :- length(L,197),!.
+
+tour7([P7|T],Resp7) :- cavalo(P7,Prox7R),
+    				not(member(Prox7R,[P7|T])),Prox7 = [P7|T],
+    			 	tour7([Prox7R|Prox7],Resp7).
+
+
+tour8(L,L) :- length(L,214),!.
+
+tour8([P8|T],Resp8) :- cavalo(P8,Prox8R),
+    				not(member(Prox8R,[P8|T])),Prox8 = [P8|T],
+    			 	tour8([Prox8R|Prox8],Resp8).
+
+
+    				
+tourT(RespT):- tour1([[1,1]],Resp1),tour2(Resp1,Resp2),tour3(Resp2,Resp3),tour4(Resp3,Resp4),
+    		   tour5(Resp4,Resp5),tour6(Resp5,Resp6),tour7(Resp6,Resp7),tour8(Resp7,Resp8),
+    		   verIni_e_Fim(Resp8,[[1,_]],[[_,1]]),RespT = Resp8.
+
+%%Consulta: trace,tourT(RespT)

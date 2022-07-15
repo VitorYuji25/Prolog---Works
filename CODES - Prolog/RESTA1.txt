@@ -1,0 +1,40 @@
+RESTA1:
+
+move(x,x,o,o,o,x).
+move(o,x,x,x,o,o).
+
+contax([],0) :- !.
+contax([x|T],N) :- contax(T,NR), N is NR+1,!.
+contax([H|T],N) :- H \==x,contax(T,N).
+
+%De 3 em 3:
+
+r1([A,B,C|T]) :- .....,r1([B,C|T]).
+
+r1([A,B,C|T]) :- move(A,B,C,NA,NB,NC), NovoJogo = [NA,NB,NC|T],r1(NovoJogo);
+r1([B,C|T]).
+
+%Lembrar aonde passou:
+
+r1(L) :- r1([],L),!.
+
+r1(Pre,L) :- append(Pre,L,R),contax(R,1),!.
+
+r1(Pre,[A,B,C|T]) :- move(A,B,C,NA,NB,NC), append(Pre,[NA,NB,NC|T],NovoJogo),
+		     r1([],NovoJogo);
+		     append(Pre,[A],NPre),r1(NPre,[B,C|T]).
+
+%Armazenar uma solução:
+
+r1s(L,Sol) :- r1s([],L,Sol).
+r1s(Pre,L,[]) :- append(Pre,L,Fim),contax(Fim,1),!.
+
+r1s(Pre,[A,B,C|T],[Este|Sol]) :- move(A,B,C,NA,NB,NC),
+append(Pre,[NA,NB,NC|T],NovoJogo),
+
+Este=NovoJogo,
+
+r1s([],NovoJogo,Sol);
+append(Pre,[A],NPre),r1s(NPre,[B,C|T],[Este|Sol]).
+
+Consulta: contax:([x,o,x,x,o,o,x],R).

@@ -1,0 +1,22 @@
+contaDigito7(7,1) :-!.
+contaDigito7(N,0) :- N<10,!.
+contaDigito7(N,C) :- Digito is N mod 10,
+		     Digito is 7,
+		     NN is N//10,contaDigito7(NN,CC), C is CC +1,!;
+		     NN is N//10,contaDigito7(NN,C).
+
+FEITA PELO PROFESSOR
+
+somaCondicional(7,1) :- !.
+somaCondicional(_,0).
+ 
+ 
+contaDigito7(7,1) :- !.
+contaDigito7(N,0) :- N<10,!.
+ 
+contaDigito7(N,C) :-
+            NMD is N mod 10,
+            somaCondicional(NMD,Soma),
+            NMenor is N//10,
+            contaDigito7(NMenor,CR), 
+            C is CR+Soma.

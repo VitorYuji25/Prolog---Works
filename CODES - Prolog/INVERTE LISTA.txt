@@ -1,0 +1,15 @@
+%INVERTE LISTA:
+
+%Questão 6
+%Escreva as cláusulas para inverter uma lista.
+%a) Em PROLOG: inverter(L,Linv).
+%Por exemplo:
+%?- inverter([a,b,c], L).
+%Deve retornar:
+%L = [c,b,a].
+
+ordena(X,[],[X]).
+ordena(X,[Y|L], [Y|R]):- ordena(X, L, R).
+
+inverte([], []).
+inverte([H|T],L):- inverte(T,R),ordena(H, R, L),!.

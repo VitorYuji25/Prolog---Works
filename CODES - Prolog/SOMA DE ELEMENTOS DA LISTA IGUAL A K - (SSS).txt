@@ -1,0 +1,8 @@
+%SOMA DE ELEMENTOS DA LISTA IGUAL A K:
+
+sss([H|_],H,[H]) :- !.
+sss([H|T],S,[H|Tr]) :- Sr is S-H,sss(T,Sr,Tr),!.
+sss([_|T],S,Tr) :- sss(T,S,Tr).
+
+?- Consulta: sss([1,2,3,4,5,6],K,X).
+Retorno = X = Elementos que somados são K.

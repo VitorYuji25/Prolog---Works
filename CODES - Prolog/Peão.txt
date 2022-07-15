@@ -1,0 +1,42 @@
+%peão
+
+pos(1).
+pos(2).
+pos(3).
+pos(4).
+pos(5).
+pos(6).
+pos(7).
+pos(8).
+
+%firstmov([[7,7]],[L2,C2]) :- L2 is 7-1,C2 is 7,pos(L2). 
+firstmov([[7,7]],[L2,C2]) :- L2 is 7-2,C2 is 7,pos(L2). %Primeiro movimento optei pela dupla passagem
+
+movimentopeao([L1,C1],_,_,_) :- member([L1,C1],[[1,1],[1,2],[1,3],[1,4],[1,5],[1,6],[1,7],[1,8]]),!. %Posições de criterio de finalização
+
+movimentopeao([L1,C1],[L2,C2],O,A) :- L2R is L1-1,pos(L2R),not(member([L2R,C1],O)),
+    								  L2 is L1-1,C2 is C1,ataca([L2,C2],[L2N,C2N],A),L1 is L2N,C1 is C2N,movimentopeao([L1,C1],[L2,C2],O,A);
+    								  L2R is L1-1,pos(L2R),not(member([L2R,C1],O)),
+    								  L2 is L1-1,C2 is C1,movimentopeao([L2,C2],_,O,A);
+    								  L2 is L1,C2 is C1,!. %Ele para de movimentar quando encontra uma peça em sua frente
+
+
+
+%Verifica se é possivel o ataque
+ataca([L1,C1],[L2,C2],A) :- L2R is L1-1,C2R is C1-1, member([L2R,C2R],A),L2 is L1-1,C2 is C1-1;
+    					    L2R is L1-1,C2R is C1+1, member([L2R,C2R],A),L2 is L1-1,C2 is C1+1.
+    
+
+peão([[7,7]],_,A,O) :-  firstmov([[7,7]],NL),movimentopeao(NL,_,O,A),!.
+    		       
+                      
+
+Consultas feitas: 
+
+Caso de ataque possível: 
+
+?- peão([[7,7]],_,[[3,6]],[[0,0]]). 
+
+Caso de peça no caminho:  
+
+?- peão([[7,7]],_,[[0,0]],[[4,7]]).    
